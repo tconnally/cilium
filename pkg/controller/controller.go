@@ -32,11 +32,16 @@ type ControllerFunc func() error
 // ExitReason is a returnable type from DoFunc that causes the
 // controller to exit. This reason is recorded in the controller's status. The
 // controller is not removed from any manager.
-// Construct one with ExitReason{errors.New("a reason")}
+// Construct one with NewExitReason(errors.New("a reason"))
 type ExitReason struct {
-	// This is constucted in this odd way because the type assertion in
+	// This is constructed in this odd way because the type assertion in
 	// runController didn't work otherwise.
 	error
+}
+
+// NewExitReason creates a new ExitReason with the given reason.
+func NewExitReason(reason error) ExitReason {
+	return ExitReason{reason}
 }
 
 // ControllerParams contains all parameters of a controller
